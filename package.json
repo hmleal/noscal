@@ -1,0 +1,15 @@
+{
+  "name": "noscal",
+  "version": "0.0.1",
+  "description": "Implementation of Pascal using NodeJS",
+  "main": "src/main.js",
+  "dependencies": {
+    "string": "^3.3.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Henrique Leal",
+  "license": "MIT"
+}
