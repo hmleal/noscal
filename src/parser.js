@@ -5,37 +5,29 @@ class Parser {
     }
 
     /*
-     * INTEGER PLUS INTEGER
-     * INTEGER MINUS INTEGER
+     * INTEGER
      */
+    term() {
+        let token = this.current_token
+        this.consume('INTEGER')
+        return parseInt(token.value, 10)
+    }
+
     expr() {
-        let left = this.current_token;
-        this.consume('INTEGER');
+        let result = this.term()
 
-        let op = this.current_token;
-        if (op.type == 'PLUS') {
-            this.consume('PLUS');
-        } else {
-            this.consume('MINUS');
-        }
-
-        let right = this.current_token;
-        this.consume('INTEGER');
-
-        if (op.type == 'PLUS') {
-            var result =  parseInt(left.value, 10) + parseInt(right.value, 10);
-        } else {
-            var result =  parseInt(left.value, 10) - parseInt(right.value, 10);
+        while(this.current_token.type === 'PLUS' || this.current_token.type === 'MINUS') {
+            let token = this.current_token
+            if(token.type === 'PLUS') {
+                this.consume('PLUS')
+                result += this.term()
+            } else if (token.type === 'MINUS') {
+                this.consume('MINUS')
+                result -= this.term()
+            }
         }
 
         return result
-
-    }
-
-    term() {
-    }
-
-    factor() {
     }
 
     consume(token_type) {

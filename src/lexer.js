@@ -23,7 +23,6 @@ class Lexer {
 
             if (S(this.current_char).isNumeric()) {
                 return new Token('INTEGER', this.integer());
-                return token;
             }
 
             if (this.current_char === '+') {
