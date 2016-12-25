@@ -38,7 +38,7 @@ class Lexer {
             }
 
             if (this.current_char == '*') {
-                let token = new Token('PLUS', '*');
+                let token = new Token('MUL', '*');
                 this.advance();
                 return token;
             }
