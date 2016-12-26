@@ -51,6 +51,18 @@ class Lexer {
                 return token
             }
 
+            if(this.current_char === '(') {
+                let token = new Token('LPAREN', '(')
+                this.advance()
+                return token
+            }
+
+            if(this.current_char === ')') {
+                let token = new Token('RPAREN', ')')
+                this.advance()
+                return token
+            }
+
             throw 'Invalid character';
         }
 

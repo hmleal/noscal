@@ -7,12 +7,20 @@ class Parser {
     }
 
     /*
-     * INTEGER
+     * INTEGER | LPAREN expr RPAREN
      */
     factor() {
         let token = this.current_token
-        this.consume('INTEGER')
-        return parseInt(token.value, 10)
+        if(token.type === 'INTEGER') {
+            this.consume('INTEGER')
+            return parseInt(token.value, 10)
+        } else if(token.type === 'LPAREN') {
+            this.consume('LPAREN')
+            let result = this.expr()
+            this.consume('RPAREN')
+
+            return result
+        }
     }
 
     /*
@@ -35,6 +43,9 @@ class Parser {
         return result
     }
 
+    /*
+     * expr: term((PLUS | MINUS) term)*
+     */
     expr() {
         let result = this.term()
 

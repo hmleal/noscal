@@ -14,11 +14,20 @@ const rl = readline.createInterface({
 
 console.log('Welcome a implementation of Pascal using NodeJS');
 rl.prompt();
-rl.on('line', (input) => {
-    l = new lexer.Lexer(input);
-    p = new parser.Parser(l, l.get_next_token());
+rl.on('line', (line) => {
+    switch(line.trim()) {
+        case 'exit':
+            rl.close()
+            break
+        default:
+            l = new lexer.Lexer(line)
+            p = new parser.Parser(l, l.get_next_token())
 
-    console.log(p.expr());
-
-    rl.prompt();
+            console.log(p.expr())
+            break
+    }
+    rl.prompt()
+}).on('close', () => {
+    console.log('Have a great day!')
+    process.exit(0)
 })
