@@ -1,10 +1,10 @@
 const chai = require('chai')
 const lexer = require('../src/lexer')
 
-const assert = chai.assert;
+const assert = chai.assert
 
 describe('Lexer test', function() {
-    it('integer token', function() {
+    it('Integer token', function() {
         let l = new lexer.Lexer('5')
         let token = l.get_next_token()
 
@@ -12,7 +12,7 @@ describe('Lexer test', function() {
         assert.equal(token.value, '5')
     })
 
-    it('plus token', function() {
+    it('Plus token', function() {
         let l = new lexer.Lexer('+')
         let token = l.get_next_token()
 
@@ -20,7 +20,7 @@ describe('Lexer test', function() {
         assert.equal(token.value, '+')
     })
 
-    it('minus token', function() {
+    it('Minus token', function() {
         let l = new lexer.Lexer('-')
         let token = l.get_next_token()
 
@@ -28,7 +28,7 @@ describe('Lexer test', function() {
         assert.equal(token.value, '-')
     })
 
-    it('plus token', function() {
+    it('Mul token', function() {
         let l = new lexer.Lexer('*')
         let token = l.get_next_token()
 

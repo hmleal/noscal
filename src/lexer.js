@@ -1,4 +1,6 @@
-var S = require('string')
+/* jshint esversion: 6 */
+
+const S = require('string')
 
 class Token {
     constructor(type, value) {
@@ -9,38 +11,44 @@ class Token {
 
 class Lexer {
     constructor(text) {
-        this.text = text;
-        this.position = 0;
-        this.current_char = text[0];
+        this.text = text
+        this.position = 0
+        this.current_char = text[0]
     }
 
     get_next_token() {
-        while (this.current_char !== 0) {
+        while(this.current_char !== 0) {
             if (S(this.current_char).isEmpty()) {
-                this.skype_white_space();
-                continue;
+                this.skype_white_space()
+                continue
             }
 
-            if (S(this.current_char).isNumeric()) {
-                return new Token('INTEGER', this.integer());
+            if(S(this.current_char).isNumeric()) {
+                return new Token('INTEGER', this.integer())
             }
 
-            if (this.current_char === '+') {
-                let token = new Token('PLUS', '+');
-                this.advance();
-                return token;
+            if(this.current_char === '+') {
+                let token = new Token('PLUS', '+')
+                this.advance()
+                return token
             }
 
-            if (this.current_char == '-') {
-                let token = new Token('MINUS', '-');
-                this.advance();
-                return token;
+            if(this.current_char === '-') {
+                let token = new Token('MINUS', '-')
+                this.advance()
+                return token
             }
 
-            if (this.current_char == '*') {
-                let token = new Token('MUL', '*');
-                this.advance();
-                return token;
+            if(this.current_char === '*') {
+                let token = new Token('MUL', '*')
+                this.advance()
+                return token
+            }
+
+            if(this.current_char === '/') {
+                let token = new Token('DIV', '/')
+                this.advance()
+                return token
             }
 
             throw 'Invalid character';

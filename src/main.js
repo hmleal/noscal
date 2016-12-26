@@ -1,3 +1,5 @@
+/* jshint esversion: 6 */
+
 // NodeJS 7.2.1
 const lexer = require('./lexer');
 const parser = require('./parser');

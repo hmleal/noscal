@@ -1,3 +1,5 @@
+/* jshint esversion: 6 */
+
 class Parser {
     constructor(lexer, current_token) {
         this.lexer = lexer
@@ -7,10 +9,30 @@ class Parser {
     /*
      * INTEGER
      */
-    term() {
+    factor() {
         let token = this.current_token
         this.consume('INTEGER')
         return parseInt(token.value, 10)
+    }
+
+    /*
+     * term: factor((MUL | DIV) factor)*
+     */
+    term() {
+        let result = this.factor()
+
+        while(this.current_token.type === 'MUL' || this.current_token.type === 'DIV') {
+            let token = this.current_token
+            if(token.type === 'MUL') {
+                this.consume('MUL')
+                result *= this.factor()
+            } else if (token.type === 'DIV') {
+                this.consume('DIV')
+                result /= this.factor()
+            }
+        }
+
+        return result
     }
 
     expr() {
