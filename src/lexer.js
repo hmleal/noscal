@@ -9,6 +9,52 @@ class Token {
     }
 }
 
+class Interpreter {
+    constructor(parser) {
+        this.parser = parser
+    }
+
+    interpret() {
+        let tree = this.parser.parse()
+        return this.visit(tree)
+    }
+
+    visit(node) {
+        let method_name = node.toString()
+
+        if(method_name === 'Num') {
+            return this.visit_num(node)
+        }
+
+        if(method_name === 'BinOp') {
+            return this.visit_binop(node)
+        }
+    }
+
+    visit_num(node) {
+        return node.value
+    }
+
+    visit_binop(node) {
+        if(node.token.type === 'PLUS') {
+            return this.visit(node.left) + this.visit(node.right)
+        }
+
+        if(node.token.type === 'MINUS') {
+            return this.visit(node.left) - this.visit(node.right)
+        }
+
+        if(node.token.type === 'MUL') {
+            return this.visit(node.left) * this.visit(node.right)
+        }
+
+        if(node.token.type === 'DIV') {
+            return this.visit(node.left) / this.visit(node.right)
+        }
+    }
+}
+
+
 class Lexer {
     constructor(text) {
         this.text = text
@@ -95,3 +141,4 @@ class Lexer {
 }
 
 module.exports.Lexer = Lexer
+module.exports.Interpreter = Interpreter

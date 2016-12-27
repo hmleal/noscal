@@ -1,6 +1,6 @@
 /* jshint esversion: 6 */
 
-// NodeJS 7.2.1
+// NodeJS 7.3
 const lexer = require('./lexer');
 const parser = require('./parser');
 
@@ -22,8 +22,11 @@ rl.on('line', (line) => {
         default:
             l = new lexer.Lexer(line)
             p = new parser.Parser(l, l.get_next_token())
+            i = new lexer.Interpreter(p)
 
-            console.log(p.expr())
+            let result = i.interpret()
+
+            console.log(result)
             break
     }
     rl.prompt()
