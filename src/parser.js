@@ -112,11 +112,11 @@ class Parser {
 
     consume(token_type) {
         if (this.current_token.type === token_type) {
-            this.current_token = this.lexer.get_next_token();
+            this.current_token = this.lexer.get_next_token()
         } else {
-            throw 'Invalid syntax';
+            throw 'Invalid syntax'
         }
     }
 }
 
-module.exports.Parser = Parser;
+module.exports.Parser = Parser

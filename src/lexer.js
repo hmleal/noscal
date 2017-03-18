@@ -122,10 +122,10 @@ class Lexer {
                 return token
             }
 
-            throw 'Invalid character';
+            throw 'Invalid character'
         }
 
-        return new Token('EOF', 'EOF');
+        return new Token('EOF', 'EOF')
     }
 
     skype_white_space() {
@@ -144,11 +144,11 @@ class Lexer {
     }
 
     advance() {
-        this.position++;
+        this.position++
         if (this.position > this.text.length - 1) {
-            this.current_char = 0;
+            this.current_char = 0
         } else {
-            this.current_char = this.text[this.position];
+            this.current_char = this.text[this.position]
         }
     }
 }
