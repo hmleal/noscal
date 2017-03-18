@@ -26,6 +26,10 @@ class Interpreter {
             return this.visit_num(node)
         }
 
+        if(method_name === 'UnaOp') {
+            return this.visit_unaop(node)
+        }
+
         if(method_name === 'BinOp') {
             return this.visit_binop(node)
         }
@@ -33,6 +37,15 @@ class Interpreter {
 
     visit_num(node) {
         return node.value
+    }
+
+    visit_unaop(node) {
+        let op = node.operation.type
+        if(op === 'PLUS') {
+            return +this.visit(node.expr)
+        } else if(op === 'MINUS') {
+            return -this.visit(node.expr)
+        }
     }
 
     visit_binop(node) {

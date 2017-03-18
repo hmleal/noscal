@@ -1,5 +1,16 @@
 /* jshint esversion: 6 */
 
+class UnaOp {
+    constructor(operation, expr) {
+        this.operation = operation
+        this.expr = expr
+    }
+
+    toString() {
+        return 'UnaOp'
+    }
+}
+
 class BinOp {
     constructor(left, right, operation) {
         this.left = left
@@ -31,14 +42,24 @@ class Parser {
     }
 
     /*
-     * INTEGER | LPAREN expr RPAREN
+     * factor: (PLUS | MINUS) factor | INTEGER | LPAREB expr RPAREN
      */
     factor() {
         let token = this.current_token
-        if(token.type === 'INTEGER') {
+        if(token.type == 'PLUS') {
+            this.consume('PLUS')
+            let node = new UnaOp(token, this.factor())
+            return node
+        }
+        else if(token.type == 'MINUS') {
+            this.consume('MINUS')
+            let node = new UnaOp(token, this.factor())
+            return node
+        }
+        else if(token.type === 'INTEGER') {
             this.consume('INTEGER')
-            let tokens = new Num(token)
-            return tokens
+            let node = new Num(token)
+            return node
         } else if(token.type === 'LPAREN') {
             this.consume('LPAREN')
             let node = this.expr()
