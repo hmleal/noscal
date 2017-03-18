@@ -57,3 +57,21 @@ describe('Precedence tests', function() {
         assert.equal(i.interpret(), 30)
     })
 })
+
+describe('Unary operators', function() {
+    it('Simple unary operator', function() {
+        let l = new lexer.Lexer('+-3')
+        let p = new parser.Parser(l, l.get_next_token())
+        let i = new lexer.Interpreter(p)
+
+        assert.equal(i.interpret(), -3)
+    })
+
+    it('Simple unary sum', function() {
+        let l = new lexer.Lexer('5--2')
+        let p = new parser.Parser(l, l.get_next_token())
+        let i = new lexer.Interpreter(p)
+
+        assert.equal(i.interpret(), 7)
+    })
+})
