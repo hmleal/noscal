@@ -59,4 +59,16 @@ describe('Tokenizer test', function() {
         assert.equal(token.type, 'RPAREN')
         assert.equal(token.value, ')')
     })
+
+    it('Peek', function() {
+        let l = new lexer.Lexer('5+5')
+
+        assert.equal(l.peek(), '+')
+    })
+
+    it('Peek when not exist next character', function() {
+        let l = new lexer.Lexer('5')
+
+        assert.equal(l.peek(), undefined)
+    })
 })

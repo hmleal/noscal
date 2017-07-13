@@ -128,6 +128,17 @@ class Lexer {
         return new Token('EOF', 'EOF')
     }
 
+    peek() {
+        let peek_pos = this.position + 1
+
+        if(peek_pos > this.text.length - 1) {
+            return undefined
+        } else {
+            return this.text[peek_pos]
+        }
+
+    }
+
     skype_white_space() {
         while(this.current_char !== 0 && S(this.current_char).isEmpty()) {
             this.advance()
