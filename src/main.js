@@ -3,6 +3,7 @@
 // NodeJS 7.3
 const lexer = require('./lexer')
 const parser = require('./parser')
+const interpreter = require('./interpreter')
 
 const readline = require('readline')
 
@@ -22,7 +23,7 @@ rl.on('line', (line) => {
         default:
             l = new lexer.Lexer(line)
             p = new parser.Parser(l, l.get_next_token())
-            i = new lexer.Interpreter(p)
+            i = new interpreter.Interpreter(p)
 
             let result = i.interpret()
 
