@@ -6,9 +6,9 @@ const interpreter = require('../src/interpreter')
 
 const assert = chai.assert
 
-describe('Parser tests', function() {
+describe('Parser tests', () => {
 
-    it('Plus two number parser test', function() {
+    it('Plus two number parser test', () => {
         let l = new lexer.Lexer('5 + 5')
         let p = new parser.Parser(l, l.get_next_token())
         let i = new interpreter.Interpreter(p)
@@ -16,7 +16,7 @@ describe('Parser tests', function() {
         assert.equal(i.interpret(), 10)
     })
 
-    it('Minus two number parser test', function() {
+    it('Minus two number parser test', () => {
         let l = new lexer.Lexer('5 - 5')
         let p = new parser.Parser(l, l.get_next_token())
         let i = new interpreter.Interpreter(p)
@@ -24,7 +24,7 @@ describe('Parser tests', function() {
         assert.equal(i.interpret(), 0)
     })
 
-    it('Mul two number parser test', function() {
+    it('Mul two number parser test', () => {
         let l = new lexer.Lexer('5 * 5')
         let p = new parser.Parser(l, l.get_next_token())
         let i = new interpreter.Interpreter(p)
@@ -32,7 +32,7 @@ describe('Parser tests', function() {
         assert.equal(i.interpret(), 25)
     })
 
-    it('Div two number parser test', function() {
+    it('Div two number parser test', () => {
         let l = new lexer.Lexer('5 / 5')
         let p = new parser.Parser(l, l.get_next_token())
         let i = new interpreter.Interpreter(p)
@@ -42,8 +42,8 @@ describe('Parser tests', function() {
 
 })
 
-describe('Precedence tests', function() {
-    it('Div operation has precedence', function() {
+describe('Precedence tests', () => {
+    it('Div operation has precedence', () => {
         let l = new lexer.Lexer('10 + 10 / 2')
         let p = new parser.Parser(l, l.get_next_token())
         let i = new interpreter.Interpreter(p)
@@ -51,7 +51,7 @@ describe('Precedence tests', function() {
         assert.equal(i.interpret(), 15)
     })
 
-    it('Plus operation has precedence', function() {
+    it('Plus operation has precedence', () => {
         let l = new lexer.Lexer('10 + 10 * 2')
         let p = new parser.Parser(l, l.get_next_token())
         let i = new interpreter.Interpreter(p)
@@ -60,8 +60,8 @@ describe('Precedence tests', function() {
     })
 })
 
-describe('Unary operators', function() {
-    it('Simple unary operator', function() {
+describe('Unary operators', () => {
+    it('Simple unary operator', () => {
         let l = new lexer.Lexer('+-3')
         let p = new parser.Parser(l, l.get_next_token())
         let i = new interpreter.Interpreter(p)
@@ -69,7 +69,7 @@ describe('Unary operators', function() {
         assert.equal(i.interpret(), -3)
     })
 
-    it('Simple unary sum', function() {
+    it('Simple unary sum', () => {
         let l = new lexer.Lexer('5--2')
         let p = new parser.Parser(l, l.get_next_token())
         let i = new interpreter.Interpreter(p)

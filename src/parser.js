@@ -35,15 +35,147 @@ class Num {
     }
 }
 
-class Parser {
-    constructor(lexer, current_token) {
-        this.lexer = lexer
-        this.current_token = current_token
+class Compound {
+    constructor() {
+        this.children = []
     }
 
-    /*
-     * factor: (PLUS | MINUS) factor | INTEGER | LPAREB expr RPAREN
+    toString() {
+        return 'Compound'
+    }
+}
+
+class Assign {
+    constructor(left, operation, right) {
+        this.left = left
+        this.token = operation
+        this.op = operation
+        this.right = right
+    }
+
+    toString() {
+        return 'Assign'
+    }
+}
+
+class Var {
+    constructor(token) {
+        // TokenObject
+        this.token = token
+        this.value = token.value
+    }
+
+    toString() {
+        return 'Var'
+    }
+}
+
+class NoOp {
+    toString() {
+        return 'NoOp'
+    }
+}
+
+class Parser {
+    /* COMPLETE GRAMMAR
+     * program: compound_statement DOT
+     *
+     * compound_statement: BEGIN statement_list END
+     *
+     * statement_list: statment
+     *               | statment SEMI statement_list
+     *
+     * assignment: compound_statement
+     *           | assignment_statement
+     *           | empty
+     * empty:
+     *
+     * expr: term ((PLUS | MINUS) term)*
+     *
+     * term: factor((MUL | DIV) factor)*
+     *
+     * factor: PLUS factor
+     *       | MINUS factor
+     *       | INTEGER
+     *       | LPAREN expr RPAREN
+     *       | variable
+     *
+     * variable: ID
      */
+    constructor(lexer) {
+        this.lexer = lexer
+        this.current_token = lexer.get_next_token()
+    }
+
+    program() {
+        let node = this.compound_statement()
+        this.consume('DOT')
+
+        return node
+    }
+
+    compound_statement() {
+        this.consume('BEGIN')
+        let nodes = this.statement_list()
+        this.consume('END')
+
+        let root = new Compound()
+        nodes.forEach(function (node) {
+            root.children.push(node)
+        })
+
+        return root
+    }
+
+    statement_list() {
+        let node = this.statment()
+        let results = [node]
+
+        while(this.current_token.type === 'SEMI') {
+            this.consume('SEMI')
+            results.push(this.statment())
+        }
+
+        if(this.current_token.type === 'ID') {
+            throw 'statement_list: Error ' + this.current_token
+        }
+
+        return results
+    }
+
+    statment() {
+        if(this.current_token.type === 'BEGIN') {
+            return this.compound_statement()
+        } else if(this.current_token.type === 'ID') {
+            return this.assignment_statement()
+        } else {
+            return this.empty()
+        }
+    }
+
+    assignment_statement() {
+        let left = this.variable()
+        let token = this.current_token
+
+        this.consume('ASSIGN')
+
+        let right = this.expr()
+
+        return new Assign(left, token, right)
+    }
+
+    variable() {
+        let node = new Var(this.current_token)
+
+        this.consume('ID')
+
+        return node
+    }
+
+    empty() {
+        return new NoOp()
+    }
+
     factor() {
         let token = this.current_token
         if(token.type == 'PLUS') {
@@ -66,12 +198,12 @@ class Parser {
             this.consume('RPAREN')
 
             return node
+        } else {
+            let node = this.variable()
+            return node
         }
     }
 
-    /*
-     * term: factor((MUL | DIV) factor)*
-     */
     term() {
         let node = this.factor()
 
@@ -88,9 +220,6 @@ class Parser {
         return node
     }
 
-    /*
-     * expr: term((PLUS | MINUS) term)*
-     */
     expr() {
         let node = this.term()
 
@@ -107,7 +236,11 @@ class Parser {
     }
 
     parse() {
-        return this.expr()
+        let node = this.program()
+        if(this.current_token.type != 'EOF') {
+            throw 'Invalid beginnig'
+        }
+        return node
     }
 
     consume(token_type) {
