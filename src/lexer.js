@@ -9,6 +9,11 @@ class Token {
     }
 }
 
+const RESERVED_WORDS = {
+    BEGIN: new Token('BEGIN', 'BEGIN'),
+    END: new Token('END', 'END')
+}
+
 class Lexer {
     constructor(text) {
         this.text = text
@@ -21,6 +26,10 @@ class Lexer {
             if (S(this.current_char).isEmpty()) {
                 this.skype_white_space()
                 continue
+            }
+
+            if(S(this.current_char).isAlpha()) {
+                return this._id()
             }
 
             if(S(this.current_char).isNumeric()) {
@@ -63,6 +72,23 @@ class Lexer {
                 return token
             }
 
+
+            if(this.current_char === ':' && this.peek() === '=') {
+                this.advance()
+                this.advance()
+                return new Token('ASSIGN', ':=')
+            }
+
+            if(this.current_char === ';') {
+                this.advance()
+                return new Token('SEMI', ';')
+            }
+
+            if(this.current_char === '.') {
+                this.advance()
+                return new Token('DOT', '.')
+            }
+
             throw 'Invalid character'
         }
 
@@ -103,6 +129,19 @@ class Lexer {
             this.current_char = this.text[this.position]
         }
     }
+
+    _id() {
+        let result = ''
+        while(this.current_char && S(this.current_char).isAlphaNumeric()) {
+            result += this.current_char
+            this.advance()
+        }
+        if(result in RESERVED_WORDS) {
+            return RESERVED_WORDS[result]
+        }
+        return new Token('ID', result)
+    }
 }
 
 module.exports.Lexer = Lexer
+module.exports.Token = Token
