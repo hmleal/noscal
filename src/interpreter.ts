@@ -1,4 +1,8 @@
-class Interpreter {
+import { Parser } from "./parser"
+
+export class Interpreter {
+    parser: Parser
+
     constructor(parser) {
         this.parser = parser
         this.global_scope = {}
@@ -106,5 +110,3 @@ class Interpreter {
         }
     }
 }
-
-module.exports.Interpreter = Interpreter

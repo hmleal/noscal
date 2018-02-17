@@ -1,6 +1,9 @@
-/* jshint esversion: 6 */
+import { Lexer, Token } from "./lexer"
 
 class UnaOp {
+    // Node
+    operation: Token
+
     constructor(operation, expr) {
         this.operation = operation
         this.expr = expr
@@ -12,6 +15,7 @@ class UnaOp {
 }
 
 class BinOp {
+    // Node
     constructor(left, right, operation) {
         this.left = left
         this.right = right
@@ -25,6 +29,9 @@ class BinOp {
 }
 
 class Num {
+    // Node
+    token: Token
+
     constructor(token) {
         this.token = token
         this.value = parseInt(token.value, 10)
@@ -36,6 +43,7 @@ class Num {
 }
 
 class Compound {
+    // Node
     constructor() {
         this.children = []
     }
@@ -46,6 +54,7 @@ class Compound {
 }
 
 class Assign {
+    // Node
     constructor(left, operation, right) {
         this.left = left
         this.token = operation
@@ -59,8 +68,11 @@ class Assign {
 }
 
 class Var {
+    // Node
+    token: Token
+    value: string
+
     constructor(token) {
-        // TokenObject
         this.token = token
         this.value = token.value
     }
@@ -71,38 +83,45 @@ class Var {
 }
 
 class NoOp {
+    // Node
     toString() {
         return 'NoOp'
     }
 }
 
-class Parser {
+export class Parser {
     /* COMPLETE GRAMMAR
-     * program: compound_statement DOT
+     * program : compound_statement DOT
      *
-     * compound_statement: BEGIN statement_list END
+     * compound_statement : BEGIN statement_list END
      *
-     * statement_list: statment
-     *               | statment SEMI statement_list
+     * statement_list : statement
+     *                | statement SEMI statement_list
      *
-     * assignment: compound_statement
+     * statement : compound_statement
      *           | assignment_statement
      *           | empty
-     * empty:
+     *
+     * assignment_statement : variable ASSIGN expr
+     *
+     * empty :
      *
      * expr: term ((PLUS | MINUS) term)*
      *
-     * term: factor((MUL | DIV) factor)*
+     * term: factor ((MUL | DIV) factor)*
      *
-     * factor: PLUS factor
-     *       | MINUS factor
-     *       | INTEGER
-     *       | LPAREN expr RPAREN
-     *       | variable
+     * factor : PLUS factor
+     *        | MINUS factor
+     *        | INTEGER
+     *        | LPAREN expr RPAREN
+     *        | variable
      *
      * variable: ID
      */
-    constructor(lexer) {
+    lexer: Lexer
+    current_token: Token
+
+    constructor(lexer: Lexer) {
         this.lexer = lexer
         this.current_token = lexer.get_next_token()
     }
@@ -251,5 +270,3 @@ class Parser {
         }
     }
 }
-
-module.exports.Parser = Parser

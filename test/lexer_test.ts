@@ -1,11 +1,9 @@
-const chai = require('chai')
-const lexer = require('../src/lexer')
-
-const assert = chai.assert
+import { assert } from 'chai';
+import { Lexer } from '../src/lexer'
 
 describe('Tokenizer test', () => {
     it('Token - INTEGER', () => {
-        let l = new lexer.Lexer('5')
+        let l = new Lexer('5')
         let token = l.get_next_token()
 
         assert.equal(token.type, 'INTEGER')
@@ -13,7 +11,7 @@ describe('Tokenizer test', () => {
     })
 
     it('Token - PLUS', () => {
-        let l = new lexer.Lexer('+')
+        let l = new Lexer('+')
         let token = l.get_next_token()
 
         assert.equal(token.type, 'PLUS')
@@ -21,7 +19,7 @@ describe('Tokenizer test', () => {
     })
 
     it('Token - MINUS', () => {
-        let l = new lexer.Lexer('-')
+        let l = new Lexer('-')
         let token = l.get_next_token()
 
         assert.equal(token.type, 'MINUS')
@@ -29,7 +27,7 @@ describe('Tokenizer test', () => {
     })
 
     it('Token - MUL', () => {
-        let l = new lexer.Lexer('*')
+        let l = new Lexer('*')
         let token = l.get_next_token()
 
         assert.equal(token.type, 'MUL')
@@ -37,7 +35,7 @@ describe('Tokenizer test', () => {
     })
 
     it('Token - DIV', () => {
-        let l = new lexer.Lexer('/')
+        let l = new Lexer('/')
         let token = l.get_next_token()
 
         assert.equal(token.type, 'DIV')
@@ -45,7 +43,7 @@ describe('Tokenizer test', () => {
     })
 
     it('Token - LPAREN', () => {
-        let l = new lexer.Lexer('(')
+        let l = new Lexer('(')
         let token = l.get_next_token()
 
         assert.equal(token.type, 'LPAREN')
@@ -53,7 +51,7 @@ describe('Tokenizer test', () => {
     })
 
     it('Token - RPAREN', () => {
-        let l = new lexer.Lexer(')')
+        let l = new Lexer(')')
         let token = l.get_next_token()
 
         assert.equal(token.type, 'RPAREN')
@@ -61,7 +59,7 @@ describe('Tokenizer test', () => {
     })
 
     it('Token - ASSIGN', () => {
-        let l = new lexer.Lexer(':=')
+        let l = new Lexer(':=')
         let token = l.get_next_token()
 
         assert.equal(token.type, 'ASSIGN')
@@ -69,7 +67,7 @@ describe('Tokenizer test', () => {
     })
 
     it('Token - SEMI', () => {
-        let l = new lexer.Lexer(';')
+        let l = new Lexer(';')
         let token = l.get_next_token()
 
         assert.equal(token.type, 'SEMI')
@@ -77,7 +75,7 @@ describe('Tokenizer test', () => {
     })
 
     it('Token - BEGIN', () => {
-        let l = new lexer.Lexer('BEGIN')
+        let l = new Lexer('BEGIN')
         let token = l.get_next_token()
 
         assert.equal(token.type, 'BEGIN')
@@ -86,7 +84,7 @@ describe('Tokenizer test', () => {
     })
 
     it('Token - END', () => {
-        let l = new lexer.Lexer('END')
+        let l = new Lexer('END')
         let token = l.get_next_token()
 
         assert.equal(token.type, 'END')
@@ -94,7 +92,7 @@ describe('Tokenizer test', () => {
     })
 
     it('Token - DOT', () => {
-        let l = new lexer.Lexer('.')
+        let l = new Lexer('.')
         let token = l.get_next_token()
 
         assert.equal(token.type, 'DOT')
@@ -102,7 +100,7 @@ describe('Tokenizer test', () => {
     })
 
     it('Token - ID', () => {
-        let l = new lexer.Lexer('a := 5')
+        let l = new Lexer('a := 5')
         let token = l.get_next_token()
 
         assert.equal(token.type, 'ID')
@@ -110,13 +108,13 @@ describe('Tokenizer test', () => {
     })
 
     it('Peek', () => {
-        let l = new lexer.Lexer('5+5')
+        let l = new Lexer('5+5')
 
         assert.equal(l.peek(), '+')
     })
 
     it('Peek when not exist next character', () => {
-        let l = new lexer.Lexer('5')
+        let l = new Lexer('5')
 
         assert.equal(l.peek(), undefined)
     })

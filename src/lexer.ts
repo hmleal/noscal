@@ -2,8 +2,11 @@
 
 const S = require('string')
 
-class Token {
-    constructor(type, value) {
+export class Token {
+    type: string
+    value: string
+
+    constructor(type: string, value: string) {
         this.type = type
         this.value = value
     }
@@ -14,15 +17,19 @@ const RESERVED_WORDS = {
     END: new Token('END', 'END')
 }
 
-class Lexer {
-    constructor(text) {
+export class Lexer {
+    text: string
+    position: number
+    current_char: (string | null)
+
+    constructor(text: string) {
         this.text = text
         this.position = 0
-        this.current_char = text[0]
+        this.current_char = this.text[this.position]
     }
 
-    get_next_token() {
-        while(this.current_char !== 0) {
+    get_next_token(): Token {
+        while(this.current_char != null) {
             if (S(this.current_char).isEmpty()) {
                 this.skype_white_space()
                 continue
@@ -72,7 +79,6 @@ class Lexer {
                 return token
             }
 
-
             if(this.current_char === ':' && this.peek() === '=') {
                 this.advance()
                 this.advance()
@@ -100,21 +106,19 @@ class Lexer {
 
         if(peek_pos > this.text.length - 1) {
             return undefined
-        } else {
-            return this.text[peek_pos]
         }
-
+        return this.text[peek_pos]
     }
 
     skype_white_space() {
-        while(this.current_char !== 0 && S(this.current_char).isEmpty()) {
+        while(this.current_char != null && S(this.current_char).isEmpty()) {
             this.advance()
         }
     }
 
-    integer() {
+    integer(): string {
         let result = ''
-        while(this.current_char !== 0 && S(this.current_char).isNumeric()) {
+        while(this.current_char != null && S(this.current_char).isNumeric()) {
             result += this.current_char
             this.advance()
         }
@@ -124,13 +128,12 @@ class Lexer {
     advance() {
         this.position++
         if (this.position > this.text.length - 1) {
-            this.current_char = 0
-        } else {
-            this.current_char = this.text[this.position]
+            this.current_char = null
         }
+        this.current_char = this.text[this.position]
     }
 
-    _id() {
+    _id(): Token {
         let result = ''
         while(this.current_char && S(this.current_char).isAlphaNumeric()) {
             result += this.current_char
@@ -142,6 +145,3 @@ class Lexer {
         return new Token('ID', result)
     }
 }
-
-module.exports.Lexer = Lexer
-module.exports.Token = Token
